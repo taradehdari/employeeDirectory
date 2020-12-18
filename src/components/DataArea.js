@@ -8,26 +8,26 @@ export default class DataArea extends Component {
   state = {
     users: [{}],
     order: "descend",
-    filteredUsers: [{}]
-  }
+    filteredUsers: [{}],
+  };
 
   headings = [
     { name: "Image", width: "10%" },
     { name: "Name", width: "10%" },
     { name: "Phone", width: "20%" },
     { name: "Email", width: "20%" },
-    { name: "DOB", width: "10%" }
-  ]
+    { name: "DOB", width: "10%" },
+  ];
 
-  handleSort = heading => {
+  handleSort = (heading) => {
     if (this.state.order === "descend") {
       this.setState({
-        order: "ascend"
-      })
+        order: "ascend",
+      });
     } else {
       this.setState({
-        order: "descend"
-      })
+        order: "descend",
+      });
     }
 
     const compareFnc = (a, b) => {
@@ -58,30 +58,27 @@ export default class DataArea extends Component {
           return b[heading] - a[heading];
         }
       }
-
-    }
+    };
     const sortedUsers = this.state.filteredUsers.sort(compareFnc);
     this.setState({ filteredUsers: sortedUsers });
-  }
+  };
 
-  handleSearchChange = event => {
+  handleSearchChange = (event) => {
     console.log(event.target.value);
     const filter = event.target.value;
-    const filteredList = this.state.users.filter(item => {
+    const filteredList = this.state.users.filter((item) => {
       // merge data together, then see if user input is anywhere inside
-      let values = Object.values(item)
-        .join("")
-        .toLowerCase();
+      let values = Object.values(item).join("").toLowerCase();
       return values.indexOf(filter.toLowerCase()) !== -1;
     });
     this.setState({ filteredUsers: filteredList });
-  }
+  };
 
   componentDidMount() {
-    API.getUsers().then(results => {
+    API.getUsers().then((results) => {
       this.setState({
         users: results.data.results,
-        filteredUsers: results.data.results
+        filteredUsers: results.data.results,
       });
     });
   }
